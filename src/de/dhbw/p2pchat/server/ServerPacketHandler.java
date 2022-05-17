@@ -19,7 +19,11 @@ public class ServerPacketHandler {
 	public synchronized void onPacketRecieved(Packet packet) {
 		if (packet instanceof ClientIsReadyToChatPacket) {
 			ClientIsReadyToChatPacket clientRegisterPacket = (ClientIsReadyToChatPacket) packet;
-			lobby.add(clientRegisterPacket.getSender());
+			Communicator sender = clientRegisterPacket.getSender();
+			sender.setIp(clientRegisterPacket.getIp());
+			sender.setPort(clientRegisterPacket.getPort());
+			sender.setUsername(clientRegisterPacket.getUsername());
+			lobby.add(sender);
 		} else if (packet instanceof ClientListRequestPacket) {
 			ClientListRequestPacket requestPacket = (ClientListRequestPacket) packet;
 			serverSocketHandler.sendPacket(new ClientListPacket(lobby), requestPacket.getSender());

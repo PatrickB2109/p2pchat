@@ -14,7 +14,7 @@ public class ClientPacketHandler implements SocketMessageListener {
 
 		if (packet instanceof ClientListPacket) {
 			ClientListPacket listPacket = (ClientListPacket) packet;
-			System.out.println(listPacket.getClients());
+			System.out.println(listPacket.getClients().get(0).getUsername());
 		}
 
 	}

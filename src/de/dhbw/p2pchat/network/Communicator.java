@@ -7,6 +7,7 @@ public class Communicator implements Serializable {
 	private String uuid;
 	private String ip;
 	private int port;
+	private String username;
 
 	public Communicator() {
 		this.uuid = "";
@@ -14,12 +15,6 @@ public class Communicator implements Serializable {
 
 	public Communicator(String uuid) {
 		this.uuid = uuid;
-	}
-
-	public Communicator(String uuid, String ip, int port) {
-		this.uuid = uuid;
-		this.ip = ip;
-		this.port = port;
 	}
 
 	public String getUuid() {
@@ -44,6 +39,14 @@ public class Communicator implements Serializable {
 
 	public void setPort(int port) {
 		this.port = port;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@Override

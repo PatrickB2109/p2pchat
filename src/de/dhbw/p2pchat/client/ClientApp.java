@@ -16,18 +16,20 @@ public class ClientApp {
 	}
 
 	private void start() {
-		String ownIP = null;
+		String ownIP = "";
 		int port = 1337;
 		try {
 			ownIP = InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+		
+		String username = "UnknownUser";
 
 		clientSocketHandler = new ClientSocketHandler();
 		clientSocketHandler.connect("localhost", port);
 
-		ClientIsReadyToChatPacket registerPacket = new ClientIsReadyToChatPacket(ownIP, port);
+		ClientIsReadyToChatPacket registerPacket = new ClientIsReadyToChatPacket(ownIP, port, username);
 		clientSocketHandler.getSocketHandler().sendPacket(registerPacket);
 
 		clientSocketHandler.getSocketHandler().sendPacket(new ClientListRequestPacket());

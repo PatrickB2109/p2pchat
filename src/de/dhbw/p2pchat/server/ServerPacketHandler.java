@@ -8,6 +8,8 @@ import de.dhbw.p2pchat.packets.ClientIsReadyToChatPacket;
 import de.dhbw.p2pchat.packets.ClientListPacket;
 import de.dhbw.p2pchat.packets.ClientListRequestPacket;
 import de.dhbw.p2pchat.packets.Packet;
+import de.dhbw.p2pchat.util.LogSource;
+import de.dhbw.p2pchat.util.Logger;
 
 public class ServerPacketHandler implements SocketMessageListener {
 	private ServerSocketHandler serverSocketHandler;
@@ -25,9 +27,11 @@ public class ServerPacketHandler implements SocketMessageListener {
 			sender.setPort(clientRegisterPacket.getPort());
 			sender.setUsername(clientRegisterPacket.getUsername());
 			lobby.add(sender);
+			Logger.log("Client hat sich registriert. IP: " + sender.getIp() + "; Port: " + sender.getPort() + "; Username: " + sender.getUsername() + ";", LogSource.SERVER);
 		} else if (packet instanceof ClientListRequestPacket) {
 			ClientListRequestPacket requestPacket = (ClientListRequestPacket) packet;
 			serverSocketHandler.sendPacket(new ClientListPacket(lobby), requestPacket.getSender());
+			Logger.log("Client " + requestPacket.getSender().getUuid() + " hat die Nutzerliste angefordert", LogSource.SERVER);
 		}
 	}
 

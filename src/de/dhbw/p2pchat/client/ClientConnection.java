@@ -8,24 +8,41 @@ import de.dhbw.p2pchat.packets.ClientIsReadyToChatPacket;
 import de.dhbw.p2pchat.packets.ClientListRequestPacket;
 
 public class ClientConnection {
+	private static ClientSocketHandler clientSocketHandler = new ClientSocketHandler();
 
 	public static CommandResult connect(String ip, int port, String username) {
-		String ownIP = "";
+		clientSocketHandler.connect(ip, port);
+		clientSocketHandler.getSocketHandler().addListener(new ClientPacketHandler());
+		registerClient(port, username);
+
+		return CommandResult.success("Verbindung erfolgreich hergestellt");
+	}
+
+	public static CommandResult autoConnect(String username) {
+		// TODO not implemented yet
+		return connect("localhost", 1337, username);
+	}
+	
+	public static CommandResult showUsers() {
+		if(clientSocketHandler.getSocketHandler() != null) {
+			clientSocketHandler.getSocketHandler().sendPacket(new ClientListRequestPacket());
+			return CommandResult.success("UserList erfolgreich angefragt");
+		}
+		return CommandResult.error("Nicht verbunden");
+	}
+
+	private static void registerClient(int port, String username) {
+		String ownIP = getOwnIp();
+		ClientIsReadyToChatPacket registerPacket = new ClientIsReadyToChatPacket(ownIP, port, username);
+		clientSocketHandler.getSocketHandler().sendPacket(registerPacket);
+	}
+	
+	private static String getOwnIp() {
 		try {
-			ownIP = InetAddress.getLocalHost().getHostAddress();
+			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-
-		ClientSocketHandler clientSocketHandler = new ClientSocketHandler();
-		clientSocketHandler.connect(ip, port);
-
-		ClientIsReadyToChatPacket registerPacket = new ClientIsReadyToChatPacket(ownIP, port, username);
-		clientSocketHandler.getSocketHandler().sendPacket(registerPacket);
-
-		clientSocketHandler.getSocketHandler().sendPacket(new ClientListRequestPacket());
-
-		clientSocketHandler.getSocketHandler().addListener(new ClientPacketHandler());
-		return CommandResult.success(null);
+		return "";
 	}
 }

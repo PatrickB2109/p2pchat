@@ -3,12 +3,13 @@ package de.dhbw.p2pchat.server;
 import java.util.ArrayList;
 
 import de.dhbw.p2pchat.network.Communicator;
+import de.dhbw.p2pchat.network.SocketMessageListener;
 import de.dhbw.p2pchat.packets.ClientIsReadyToChatPacket;
 import de.dhbw.p2pchat.packets.ClientListPacket;
 import de.dhbw.p2pchat.packets.ClientListRequestPacket;
 import de.dhbw.p2pchat.packets.Packet;
 
-public class ServerPacketHandler {
+public class ServerPacketHandler implements SocketMessageListener {
 	private ServerSocketHandler serverSocketHandler;
 	private ArrayList<Communicator> lobby = new ArrayList<>();
 
@@ -16,7 +17,7 @@ public class ServerPacketHandler {
 		this.serverSocketHandler = serverSocketHandler;
 	}
 
-	public synchronized void onPacketRecieved(Packet packet) {
+	public synchronized void onRecieve(Packet packet) {
 		if (packet instanceof ClientIsReadyToChatPacket) {
 			ClientIsReadyToChatPacket clientRegisterPacket = (ClientIsReadyToChatPacket) packet;
 			Communicator sender = clientRegisterPacket.getSender();

@@ -33,7 +33,7 @@ public class ServerApp {
 		serverSocketHandler.addListener(new SocketMessageListener() {
 			@Override
 			public void onRecieve(Packet packet) {
-				packetReceiver.onPacketRecieved(packet);
+				packetReceiver.onRecieve(packet);
 			}
 
 			@Override

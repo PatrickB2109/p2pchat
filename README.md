@@ -1,0 +1,2 @@
+# p2pchat
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/eff6c445838342ac9466d8288060e00b)](https://app.codacy.com/gh/PatrickB2109/p2pchat?utm_source=github.com&utm_medium=referral&utm_content=PatrickB2109/p2pchat&utm_campaign=Badge_Grade_Settings)

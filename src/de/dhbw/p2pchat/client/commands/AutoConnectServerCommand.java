@@ -13,10 +13,6 @@ public class AutoConnectServerCommand extends CommandParser {
 	private static final int ARG_USERNAME = 2;
 	private static final int EXPECTED_LENGTH = 3;
 	
-	public AutoConnectServerCommand() {
-		super();
-	}
-
 	@Override
 	public CommandResult execute(SplittedCommand command) {
 		if (command.argsSize() == EXPECTED_LENGTH) {

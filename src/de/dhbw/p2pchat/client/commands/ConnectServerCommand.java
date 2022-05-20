@@ -15,10 +15,6 @@ public class ConnectServerCommand extends CommandParser {
 	private static final int ARG_USERNAME = 4;
 	private static final int EXPECTED_LENGTH = 5;
 	
-	public ConnectServerCommand() {
-		super();
-	}
-
 	@Override
 	public CommandResult execute(SplittedCommand command) {
 		if (command.argsSize() == EXPECTED_LENGTH) {

@@ -12,10 +12,6 @@ public class ListUsersCommand extends CommandParser {
 	private static final int COMMAND_HELP_CUT = 2;
 	private static final int EXPECTED_LENGTH = 2;
 	
-	public ListUsersCommand() {
-		super();
-	}
-
 	@Override
 	public CommandResult execute(SplittedCommand command) {
 		if (command.argsSize() == EXPECTED_LENGTH) {

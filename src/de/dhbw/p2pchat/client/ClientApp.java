@@ -1,14 +1,9 @@
 package de.dhbw.p2pchat.client;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import de.dhbw.p2pchat.packets.ClientIsReadyToChatPacket;
-import de.dhbw.p2pchat.packets.ClientListRequestPacket;
+import de.dhbw.p2pchat.client.commandparser.BaseCommandParser;
+import de.dhbw.p2pchat.client.userinput.TerminalHandler;
 
 public class ClientApp {
-
-	private ClientSocketHandler clientSocketHandler;
 
 	public static void main(String[] args) {
 		ClientApp clientApp = new ClientApp();
@@ -16,28 +11,9 @@ public class ClientApp {
 	}
 
 	private void start() {
-		String ownIP = "";
-		int port = 1337;
-		try {
-			ownIP = InetAddress.getLocalHost().getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		
-		String username = "UnknownUser";
-
-		clientSocketHandler = new ClientSocketHandler();
-		clientSocketHandler.connect("localhost", port);
-
-		ClientIsReadyToChatPacket registerPacket = new ClientIsReadyToChatPacket(ownIP, port, username);
-		clientSocketHandler.getSocketHandler().sendPacket(registerPacket);
-
-		clientSocketHandler.getSocketHandler().sendPacket(new ClientListRequestPacket());
-
-		clientSocketHandler.getSocketHandler().addListener(new ClientPacketHandler());
+		BaseCommandParser commandParser = new BaseCommandParser();
+		TerminalHandler terminalHandler = new TerminalHandler(commandParser);
+		terminalHandler.start();
 	}
 
-	public ClientSocketHandler getClientSocketHandler() {
-		return clientSocketHandler;
-	}
 }

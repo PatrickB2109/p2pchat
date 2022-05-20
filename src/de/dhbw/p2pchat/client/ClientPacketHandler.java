@@ -9,12 +9,17 @@ import de.dhbw.p2pchat.util.Logger;
 
 public class ClientPacketHandler implements SocketMessageListener {
 
+	private ClientListPacket listPacket;
+	
 	@Override
 	public void onRecieve(Packet packet) {
 
 		if (packet instanceof ClientListPacket) {
-			ClientListPacket listPacket = (ClientListPacket) packet;
-			System.out.println(listPacket.getClients().get(0).getUsername());
+			listPacket = (ClientListPacket) packet;
+			int index = 0;
+			for (Communicator communicator : listPacket.getClients()) {
+				System.out.println("Nr: " + index++ + ": UUID: " + communicator.getUuid() + "; Username: " + communicator.getUsername() + ";");
+			}
 		}
 
 	}

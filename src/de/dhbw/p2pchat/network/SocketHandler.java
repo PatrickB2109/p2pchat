@@ -12,7 +12,6 @@ import de.dhbw.p2pchat.util.Logger;
 
 public class SocketHandler {
 
-	private Thread thread;
 	private Communicator communicator;
 	private ObjectOutputStream objectOutputStream;
 	private ArrayList<SocketMessageListener> socketMessageListener = new ArrayList<>();
@@ -30,7 +29,7 @@ public class SocketHandler {
 			e1.printStackTrace();
 		}
 
-		thread = new Thread(() -> {
+		Thread thread = new Thread(() -> {
 			ObjectInputStream stream = null;
 			try {
 				stream = new ObjectInputStream(socket.getInputStream());
@@ -47,7 +46,6 @@ public class SocketHandler {
 						all.onRecieve(packet);
 					}
 				} catch (IOException | ClassNotFoundException e) {
-					Logger.log("Die Verbindung wurde verloren.", LogSource.NETWORK);
 					for (SocketMessageListener all : socketMessageListener) {
 						all.onDisconnect(communicator);
 					}

@@ -17,6 +17,10 @@ public class ClientSocketHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	public void disconnect() {
+		socketHandler = null;
+	}
 
 	public SocketHandler getSocketHandler() {
 		return socketHandler;

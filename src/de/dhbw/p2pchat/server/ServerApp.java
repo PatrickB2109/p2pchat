@@ -9,7 +9,6 @@ import de.dhbw.p2pchat.util.Logger;
 public class ServerApp {
 
 	private static ServerApp serverApp;
-	private ServerSocketHandler serverSocketHandler;
 
 	public static void main(String[] args) {
 		ServerApp.getInstance().startServerApplication();
@@ -24,7 +23,7 @@ public class ServerApp {
 
 	public void startServerApplication() {
 		Logger.log("Der Server wird gestartet.", LogSource.SERVER);
-		serverSocketHandler = new ServerSocketHandler();
+		ServerSocketHandler serverSocketHandler = new ServerSocketHandler();
 		serverSocketHandler.start(1337);
 		Logger.log("Der Server wurde gestartet auf Port " + serverSocketHandler.getPort() + ".", LogSource.SERVER);
 
@@ -33,7 +32,7 @@ public class ServerApp {
 		serverSocketHandler.addListener(new SocketMessageListener() {
 			@Override
 			public void onRecieve(Packet packet) {
-				packetReceiver.onPacketRecieved(packet);
+				packetReceiver.onRecieve(packet);
 			}
 
 			@Override

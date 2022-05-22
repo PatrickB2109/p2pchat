@@ -1,5 +1,6 @@
 package de.dhbw.p2pchat.client.commandparser;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

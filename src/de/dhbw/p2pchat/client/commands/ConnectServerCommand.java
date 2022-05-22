@@ -1,5 +1,6 @@
 package de.dhbw.p2pchat.client.commands;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import de.dhbw.p2pchat.client.ClientConnection;
@@ -16,7 +17,7 @@ public class ConnectServerCommand extends CommandParser {
 	private static final int EXPECTED_LENGTH = 5;
 	
 	@Override
-	public CommandResult execute(SplittedCommand command) {
+	public CommandResult execute(SplittedCommand command){
 		if (command.argsSize() == EXPECTED_LENGTH) {
 			String ip = command.getStringAt(ARG_IP);
 			String port = command.getStringAt(ARG_PORT);

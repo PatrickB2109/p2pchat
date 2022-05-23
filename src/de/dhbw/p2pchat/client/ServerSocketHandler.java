@@ -1,23 +1,19 @@
 package de.dhbw.p2pchat.client;
 
-import de.dhbw.p2pchat.network.Communicator;
-import de.dhbw.p2pchat.network.SocketHandler;
-import de.dhbw.p2pchat.network.SocketMessageListener;
-import de.dhbw.p2pchat.packets.Message;
-import de.dhbw.p2pchat.packets.Packet;
-import de.dhbw.p2pchat.util.LogSource;
-import de.dhbw.p2pchat.util.Logger;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
+
+import de.dhbw.p2pchat.network.Communicator;
+import de.dhbw.p2pchat.network.SocketHandler;
+import de.dhbw.p2pchat.network.SocketMessageListener;
+import de.dhbw.p2pchat.packets.Packet;
+import de.dhbw.p2pchat.util.LogSource;
+import de.dhbw.p2pchat.util.Logger;
 
 public class ServerSocketHandler {
 
@@ -55,7 +51,8 @@ public class ServerSocketHandler {
 						@Override
 						public void onDisconnect(Communicator communicator) {
 							for (SocketMessageListener listener : listeners) {
-								Logger.log("Verbindung zum Client " + communicator.getUuid() + " wurde getrennt.", LogSource.SERVER);
+								Logger.log("Verbindung zum Client " + communicator.getUuid() + " wurde getrennt.",
+										LogSource.SERVER);
 								listener.onDisconnect(communicator);
 							}
 						}
@@ -73,6 +70,5 @@ public class ServerSocketHandler {
 	public void addListener(SocketMessageListener listener) {
 		listeners.add(listener);
 	}
-
 
 }

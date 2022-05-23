@@ -16,7 +16,7 @@ public class ServerCommandParser extends UppercaseCommandParser {
 		commands.put("AUTOCONNECT", new AutoConnectServerCommand());
 		commands.put("DISCONNECT", new DisconnectServerCommand());
 		commands.put("STATUS", new StatusServerCommand());
-		
+
 		commands.put("LISTUSERS", new ListUsersCommand());
 	}
 

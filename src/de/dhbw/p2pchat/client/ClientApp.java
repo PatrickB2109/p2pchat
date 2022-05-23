@@ -6,6 +6,7 @@ import de.dhbw.p2pchat.client.userinput.TerminalHandler;
 public class ClientApp {
 	static TerminalHandler terminalHandler;
 	static boolean isConnectedToOtherClient;
+
 	public static void main(String[] args) {
 		ClientApp clientApp = new ClientApp();
 		clientApp.start();

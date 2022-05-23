@@ -28,7 +28,7 @@ public class ServerApp {
 		Logger.log("Der Server wurde gestartet auf Port " + serverSocketHandler.getPort() + ".", LogSource.SERVER);
 
 		ServerPacketHandler packetReceiver = new ServerPacketHandler(serverSocketHandler);
-		
+
 		serverSocketHandler.addListener(new SocketMessageListener() {
 			@Override
 			public void onRecieve(Packet packet) {

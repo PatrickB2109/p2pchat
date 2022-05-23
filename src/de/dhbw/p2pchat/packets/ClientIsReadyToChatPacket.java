@@ -4,7 +4,7 @@ public class ClientIsReadyToChatPacket extends Packet {
 	private String ip;
 	private int port;
 	private String username;
-	
+
 	public ClientIsReadyToChatPacket(String ip, int port, String username) {
 		this.ip = ip;
 		this.port = port;
@@ -18,7 +18,7 @@ public class ClientIsReadyToChatPacket extends Packet {
 	public int getPort() {
 		return port;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

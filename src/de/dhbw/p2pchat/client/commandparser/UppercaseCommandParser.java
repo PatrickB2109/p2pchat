@@ -1,6 +1,5 @@
 package de.dhbw.p2pchat.client.commandparser;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ public abstract class UppercaseCommandParser extends CommandParser {
 		this.position = switchPos;
 	}
 
+	@Override
 	public CommandResult execute(SplittedCommand command) {
 		CommandParser commandParser = commands.get(command.getStringUppercaseAt(position));
 		if (commandParser != null) {

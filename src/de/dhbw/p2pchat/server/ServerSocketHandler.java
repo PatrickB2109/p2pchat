@@ -53,7 +53,8 @@ public class ServerSocketHandler {
 						@Override
 						public void onDisconnect(Communicator communicator) {
 							for (SocketMessageListener listener : listeners) {
-								Logger.log("Verbindung zum Client " + communicator.getUuid() + " wurde getrennt.", LogSource.SERVER);
+								Logger.log("Verbindung zum Client " + communicator.getUuid() + " wurde getrennt.",
+										LogSource.SERVER);
 								listener.onDisconnect(communicator);
 							}
 						}

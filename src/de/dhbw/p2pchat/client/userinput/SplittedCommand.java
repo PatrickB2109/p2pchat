@@ -19,7 +19,6 @@ public class SplittedCommand {
 		}
 	}
 
-
 	public String getStringUppercaseAt(int pos) {
 		String string = getStringAt(pos);
 		if (string != null) {

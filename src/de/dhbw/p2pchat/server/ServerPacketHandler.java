@@ -1,7 +1,6 @@
 package de.dhbw.p2pchat.server;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import de.dhbw.p2pchat.network.Communicator;
@@ -21,6 +20,7 @@ public class ServerPacketHandler implements SocketMessageListener {
 		this.serverSocketHandler = serverSocketHandler;
 	}
 
+	@Override
 	public synchronized void onRecieve(Packet packet) {
 		if (packet instanceof ClientIsReadyToChatPacket) {
 			ClientIsReadyToChatPacket clientRegisterPacket = (ClientIsReadyToChatPacket) packet;
@@ -41,6 +41,7 @@ public class ServerPacketHandler implements SocketMessageListener {
 		}
 	}
 
+	@Override
 	public synchronized void onDisconnect(Communicator communicator) {
 		lobby.remove(communicator);
 	}

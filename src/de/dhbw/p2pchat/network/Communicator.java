@@ -40,7 +40,7 @@ public class Communicator implements Serializable {
 	public void setPort(int port) {
 		this.port = port;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}

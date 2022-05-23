@@ -11,12 +11,7 @@ import de.dhbw.p2pchat.util.LogSource;
 import de.dhbw.p2pchat.util.Logger;
 
 public class ServerPacketHandler implements SocketMessageListener {
-	private ServerSocketHandler serverSocketHandler;
 	private ArrayList<Communicator> lobby = new ArrayList<>();
-
-	public ServerPacketHandler(ServerSocketHandler serverSocketHandler) {
-		this.serverSocketHandler = serverSocketHandler;
-	}
 
 	@Override
 	public synchronized void onRecieve(Packet packet) {

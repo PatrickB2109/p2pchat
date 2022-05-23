@@ -50,7 +50,6 @@ public class ClientConnection {
 	}
 
 	public static CommandResult autoConnect(String username) {
-		// TODO not implemented yet
 		return connect("localhost", 1337, username);
 	}
 
@@ -100,7 +99,7 @@ public class ClientConnection {
 		ownPort = getFreePort();
 		ServerSocketHandler serverSocketHandler = new ServerSocketHandler();
 		serverSocketHandler.start(ownPort);
-		ServerPacketHandler packetReceiver = new ServerPacketHandler(serverSocketHandler);
+		ServerPacketHandler packetReceiver = new ServerPacketHandler();
 
 		serverSocketHandler.addListener(new SocketMessageListener() {
 			@Override

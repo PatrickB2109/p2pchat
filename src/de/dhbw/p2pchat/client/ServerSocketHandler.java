@@ -36,16 +36,12 @@ public class ServerSocketHandler {
 		Thread thread = new Thread(() -> {
 
 			while (true) {
-
 				Socket socket = null;
 				try {
 					socket = serverSocket.accept();
-					ClientApp.setIsConnectedToOtherClient(true);
-					ClientApp.getTerminalHandler().stopThread();
+
 					String newUUID = UUID.randomUUID().toString();
 					SocketHandler socketHandler = new SocketHandler(new Communicator(newUUID), socket);
-					Logger.log("Neuer Client (" + socketHandler.getCommunicator().getUuid() + ") wurde erkannt.",
-							LogSource.SERVER);
 
 					socketHandler.addListener(new SocketMessageListener() {
 
@@ -61,28 +57,10 @@ public class ServerSocketHandler {
 							for (SocketMessageListener listener : listeners) {
 								Logger.log("Verbindung zum Client " + communicator.getUuid() + " wurde getrennt.", LogSource.SERVER);
 								listener.onDisconnect(communicator);
-								ClientApp.getTerminalHandler().start();
-								ClientApp.setIsConnectedToOtherClient(false);
-								Thread.currentThread().interrupt();
 							}
 						}
 					});
 					socketHandlers.add(socketHandler);
-
-					while (ClientApp.isConnectedToOtherClient) {
-						BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-						String input = reader.readLine();
-						if (!input.equals("DISCONNECT")) {
-							sendPacket(new Message(input), socketHandler.getCommunicator());
-						} else {
-							socket.close();
-							ClientApp.setIsConnectedToOtherClient(false);
-							ClientApp.getTerminalHandler().start();
-							Thread.currentThread().interrupt();
-							return;
-						}
-					}
-
 				} catch (IOException e) {
 					e.printStackTrace();
 					break;
@@ -92,29 +70,9 @@ public class ServerSocketHandler {
 		thread.start();
 	}
 
-	public void sendPacket(Packet packet, Communicator communicator) {
-		List<Communicator> one = new ArrayList<>();
-		one.add(communicator);
-
-		sendToMultiple(packet, one);
-	}
-
-	public void sendToMultiple(Packet packet, List<Communicator> communicatorList) {
-		for (Communicator communicator : communicatorList) {
-			for (SocketHandler all : socketHandlers) {
-				if (all.getCommunicator().equals(communicator)) {
-					all.sendPacket(packet);
-				}
-			}
-		}
-	}
-
 	public void addListener(SocketMessageListener listener) {
 		listeners.add(listener);
 	}
 
-	public int getPort() {
-		return serverSocket.getLocalPort();
-	}
 
 }

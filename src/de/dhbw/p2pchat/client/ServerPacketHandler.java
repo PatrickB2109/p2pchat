@@ -30,7 +30,7 @@ public class ServerPacketHandler implements SocketMessageListener {
 					+ "; Username: " + sender.getUsername() + ";", LogSource.SERVER);
 		}else if (packet instanceof Message) {
 			Message message = (Message) packet;
-			System.out.println(message.getDateSent()+":"+message.getSender().getUsername()+":"+message.getContent());
+			System.out.println(message.getDateSent()+":"+message.getSenderName()+":"+message.getContent());
 		}
 	}
 

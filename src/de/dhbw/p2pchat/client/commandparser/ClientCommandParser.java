@@ -8,5 +8,6 @@ public class ClientCommandParser extends UppercaseCommandParser {
     public ClientCommandParser() {
         super(HIERARCHY_LEVEL);
         commands.put("CONNECT", new ConnectClientCommand());
+        commands.put("MESSAGE", new SendMessageCommand());
     }
 }

@@ -1,10 +1,14 @@
 package de.dhbw.p2pchat.client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.PublicKey;
+import java.util.HashMap;
 import java.util.PrimitiveIterator;
 import java.util.Scanner;
 
@@ -17,32 +21,27 @@ import de.dhbw.p2pchat.packets.Message;
 import de.dhbw.p2pchat.packets.Packet;
 
 public class ClientConnection {
+	private static HashMap<String, ClientSocketHandler> clientSocketHandlerByUuid = new HashMap<>();
 	private static ClientSocketHandler clientSocketHandler = new ClientSocketHandler();
 	private static ClientPacketHandler clientPacketHandler;
 	private static int ownPort;
+	private static String myUsername;
 	public static CommandResult connect(String ip, int port, String username) {
 		clientPacketHandler = new ClientPacketHandler();
 		clientSocketHandler.connect(ip, port);
 		clientSocketHandler.getSocketHandler().addListener(clientPacketHandler);
+		myUsername = username;
 		registerClient(ownPort,username);
 		return CommandResult.success("Verbindung erfolgreich hergestellt");
 	}
-	public static CommandResult connectToClient(String ip, int port, String username) {
-		clientPacketHandler = new ClientPacketHandler();
-		clientSocketHandler.connect(ip, port);
+	public static CommandResult connectToClient(String clientUuid) {
+		Communicator targetClient = ClientConnection.getClientPacketHandler().getClientsByUUid().get(clientUuid);
+		ClientPacketHandler clientPacketHandler = new ClientPacketHandler();
+		ClientSocketHandler clientSocketHandler = new ClientSocketHandler();
+		clientSocketHandler.connect(targetClient.getIp(), targetClient.getPort());
 		clientSocketHandler.getSocketHandler().addListener(clientPacketHandler);
-		registerClient(ownPort,username);
-		boolean isConntected = true;
-		while (isConntected) {
-			Scanner scanner = new Scanner(System.in);
-			String input = scanner.nextLine();
-			if (!input.equals("DISCONNECT")) {
-				clientSocketHandler.getSocketHandler().sendPacket(new Message(input));
-			} else {
-				clientSocketHandler.disconnect();
-				isConntected = false;
-			}
-		}
+		clientSocketHandlerByUuid.put(clientUuid, clientSocketHandler);
+		registerClient(ownPort,myUsername);
 		return CommandResult.success("Verbindung erfolgreich hergestellt");
 	}
 	public static CommandResult autoConnect(String username) {
@@ -123,5 +122,33 @@ public class ClientConnection {
 			return port;
 		}
 		throw new RuntimeException("Could not find a free port");
+	}
+
+	public static CommandResult sendMessage(String recepientUuid, String message) {
+		if (clientSocketHandlerByUuid.get(recepientUuid) != null) {
+			clientSocketHandlerByUuid.get(recepientUuid).getSocketHandler().sendPacket(new Message(message));
+
+		} else {
+			return CommandResult.error("not connected to this client yet");
+		}
+		return CommandResult.success("Message sent");
+//		boolean isConntected = true;
+//		while (isConntected) {
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//			String input = null;
+//			try {
+//				input = reader.readLine();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//			if (!input.equals("DISCONNECT")) {
+//				clientSocketHandler.getSocketHandler().sendPacket(new Message(input));
+//			} else {
+//				clientSocketHandler.disconnect();
+//				isConntected = false;
+//			}
+//		}
+//		return CommandResult.success("");
+
 	}
 }

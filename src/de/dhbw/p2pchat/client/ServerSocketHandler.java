@@ -8,7 +8,9 @@ import de.dhbw.p2pchat.packets.Packet;
 import de.dhbw.p2pchat.util.LogSource;
 import de.dhbw.p2pchat.util.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -68,8 +70,8 @@ public class ServerSocketHandler {
 					socketHandlers.add(socketHandler);
 
 					while (ClientApp.isConnectedToOtherClient) {
-						Scanner scanner = new Scanner(System.in);
-						String input = scanner.nextLine();
+						BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+						String input = reader.readLine();
 						if (!input.equals("DISCONNECT")) {
 							sendPacket(new Message(input), socketHandler.getCommunicator());
 						} else {

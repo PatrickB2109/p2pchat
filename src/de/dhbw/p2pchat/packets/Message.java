@@ -6,9 +6,13 @@ public class Message extends Packet{
     String content;
     Date dateSent;
 
-    public Message(String content) {
+
+    String senderName;
+
+    public Message(String content, String senderName) {
         this.content = content;
         this.dateSent = new Date();
+        this.senderName = senderName;
     }
 
     public String getContent() {
@@ -17,5 +21,9 @@ public class Message extends Packet{
 
     public Date getDateSent() {
         return dateSent;
+    }
+
+    public String getSenderName() {
+        return senderName;
     }
 }

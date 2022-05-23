@@ -34,10 +34,8 @@ public class ServerPacketHandler implements SocketMessageListener {
 		} else if (packet instanceof ClientListRequestPacket) {
 			ClientListRequestPacket requestPacket = (ClientListRequestPacket) packet;
 			serverSocketHandler.sendPacket(new ClientListPacket(lobby.stream()
-					.filter(e -> e.getUuid() != requestPacket.getSender().getUuid()).collect(Collectors.toList())),
+					.filter(e -> e.getUuid() != requestPacket.getSender().getUuid()).distinct().collect(Collectors.toList())),
 					requestPacket.getSender());
-			Logger.log("Client " + requestPacket.getSender().getUuid() + " hat die Nutzerliste angefordert",
-					LogSource.SERVER);
 		}
 	}
 
